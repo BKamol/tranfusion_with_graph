@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//состояние сосудов описывается тройкой чисел
 struct triple
 {
     int a, b, c;
@@ -31,11 +32,13 @@ struct triple
     }
 };
 
+//в сосудах не может быть больше воды, чем вместимость и меньше нуля
 bool right_triple(triple tr, triple max)
 {
     return tr <= max && tr.a >= 0 && tr.b >= 0 && tr.c >= 0;
 }
 
+//функция принимает текущее состояние сосудов и вместимость; возвращает вектор таких состояний, которые можно получить переливанием из исходного
 vector<triple> neighbours(triple t, triple max)
 {
     vector<triple> neighbours;
@@ -63,7 +66,7 @@ vector<triple> neighbours(triple t, triple max)
         else
             probe = { a + c, b, 0 };
 
-        //.print();
+        //probe.print();
         if (right_triple(probe, max))
             neighbours.push_back(probe);
         
@@ -130,6 +133,7 @@ bool bfs(triple initial_state, triple max)
     visited.push_back(initial_state);
     q.push(initial_state);
     
+    //мы будем перебирать все непроверенные состяния, в которые можно попасть из начального по очереди, и если попадется нужное, то задача имеет решение, иначе не имеет
     while (!q.empty())
     {
         t = q.front();
