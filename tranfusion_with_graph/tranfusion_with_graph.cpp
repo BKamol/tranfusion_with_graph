@@ -124,7 +124,7 @@ vector<triple> neighbours(triple t, triple max)
 }
 
 //модификация bfs
-bool bfs(triple initial_state, triple max)
+vector<triple> bfs(triple initial_state, triple max)
 {
     vector<triple> visited;
     queue<triple> q;
@@ -142,7 +142,11 @@ bool bfs(triple initial_state, triple max)
         ns = neighbours(t, max);
         for (auto& n : ns)
         {
-            if (n.b == 2 || n.c == 2) return true; //если нашли вершину, у которой второй или последний сосуд имеет ровно 2 литра воды, то задача решена
+            if (n.b == 2 || n.c == 2)
+            {
+                visited.push_back(n);
+                return visited; //если нашли вершину, у которой второй или последний сосуд имеет ровно 2 литра воды, то задача решена
+            }
             if (find(visited.begin(), visited.end(), n) == visited.end())
             {
                 q.push(n);
@@ -151,7 +155,7 @@ bool bfs(triple initial_state, triple max)
         }
     }
 
-    return false;
+    return {};
 }
 
 int main()
@@ -167,5 +171,7 @@ int main()
     for (auto& n : ns)
         n.print();*/
 
-    cout << bfs(initial_state, max);
+    vector<triple> visited = bfs(initial_state, max);
+    for (auto& t : visited)
+        t.print();
 }
